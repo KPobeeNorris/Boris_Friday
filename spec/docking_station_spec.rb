@@ -16,10 +16,10 @@ describe DockingStation do
 
   it "should respond to docking bike" do
     expect(@station).to respond_to(:dock_bike)
-end
+  end
 
   it "should not dock a bike if station is full" do
-    20.times{@station.dock_bike(Bike.new)}
+    DockingStation::DEFAULT_CAPACITY.times{@station.dock_bike(Bike.new)}
     expect { @station.dock_bike(Bike.new) }.to raise_error("There is no room to dock the bike!")
   end
 
@@ -39,9 +39,11 @@ end
     expect(@station.bikes).to eq [bike]
   end
 
-  it "should be able to accept 20 bikes" do
-    20.times {@station.dock_bike(Bike.new)}
-    expect(@station.bikes.length).to eq 20
-  end
+  it "should be able to accept default number of bikes" do
+    DockingStation::DEFAULT_CAPACITY.times {@station.dock_bike(Bike.new)}
+    expect(@station.bikes.length).to eq DockingStation::DEFAULT_CAPACITY
+
+    end
+
 
 end
