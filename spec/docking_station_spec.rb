@@ -21,6 +21,12 @@ describe DockingStation do
     expect {@station.release_bike}.to raise_error("Unable to release as broken")
   end
 
+  it "should accept a broken bike" do
+    bike = Bike.new
+    bike.report_bike_broken
+    expect(@station.dock_bike(bike).last).to eq bike
+  end
+
   it "should respond to docking bike" do
     expect(@station).to respond_to(:dock_bike)
   end
@@ -29,16 +35,11 @@ describe DockingStation do
     DockingStation::DEFAULT_CAPACITY.times{@station.dock_bike(Bike.new)}
     expect { @station.dock_bike(Bike.new) }.to raise_error("There is no room to dock the bike!")
   end
-
-  it "should return a working bike" do
-    bike = Bike.new
-    expect(bike.broken?).to eq (false)
-  end
-
-  it "should see that a bike has been docked" do
+  
+  it "should see that a working bike has been docked" do
     bike = Bike.new
     @station.dock_bike(bike)
-    expect(@station.bikes).to eq [bike]
+    expect(@station.dock_bike(bike).last).to eq bike
   end
 
   it "should be able to accept default number of bikes" do
