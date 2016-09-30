@@ -14,6 +14,13 @@ describe DockingStation do
    expect { @station.release_bike }.to raise_error("There aren't any bikes!")
   end
 
+  it "should not release a broken bike" do
+    bike = Bike.new
+    bike.report_bike_broken
+    @station.dock_bike(bike)
+    expect {@station.release_bike}.to raise_error("Unable to release as broken")
+  end
+
   it "should respond to docking bike" do
     expect(@station).to respond_to(:dock_bike)
   end
@@ -25,7 +32,7 @@ describe DockingStation do
 
   it "should return a working bike" do
     bike = Bike.new
-    expect(bike.working?).to eq (true)
+    expect(bike.broken?).to eq (false)
   end
 
   it "should see that a bike has been docked" do
@@ -51,5 +58,6 @@ describe DockingStation do
     station = DockingStation.new(10)
     expect(station.capacity).to eq 10
   end
+
 
 end

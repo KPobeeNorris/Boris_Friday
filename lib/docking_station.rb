@@ -12,7 +12,9 @@ class DockingStation
 
   def release_bike
     raise "There aren't any bikes!" if empty?
-    @bikes.pop
+    bike = @bikes.pop
+    raise "Unable to release as broken" if bike.broken?
+    bike
   end
 
   def dock_bike(bike)
@@ -31,8 +33,3 @@ class DockingStation
   end
 
 end
-
-# ds = DockingStation.new
-# bike = Bike.new
-#
-# # puts ds.release_bike
