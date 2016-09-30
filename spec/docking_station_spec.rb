@@ -28,11 +28,6 @@ describe DockingStation do
     expect(bike.working?).to eq (true)
   end
 
-#   it "should allow a bike to be docked" do
-#     bike = Bike.new
-#     expect(bike.dock_bike).to eq (true)
-# end
-
   it "should see that a bike has been docked" do
     bike = Bike.new
     @station.dock_bike(bike)
@@ -42,8 +37,19 @@ describe DockingStation do
   it "should be able to accept default number of bikes" do
     DockingStation::DEFAULT_CAPACITY.times {@station.dock_bike(Bike.new)}
     expect(@station.bikes.length).to eq DockingStation::DEFAULT_CAPACITY
+  end
 
-    end
+  it "should have a maximum capacity" do
+    expect(@station).to respond_to(:capacity)
+  end
 
+  it "should have a default capacity of 20 when no capacity is given" do
+    expect(@station.capacity).to eq 20
+  end
+
+  it "should have a capacity of 10 when given 10" do
+    station = DockingStation.new(10)
+    expect(station.capacity).to eq 10
+  end
 
 end
